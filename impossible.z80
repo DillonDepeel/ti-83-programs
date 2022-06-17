@@ -84,11 +84,11 @@ varEnd		equ	attemptPic+35
 		db    3
 		db  18h
 		db    7
-		db 0BCh	; º
+		db 0BCh	; ¬º
 		db    7
-		db 0BCh	; º
+		db 0BCh	; ¬º
 		db 0FFh
-		db 0FEh	; ˛
+		db 0FEh	; √æ
 		db    0
 		db    0
 		db    0
@@ -542,7 +542,7 @@ isLastScreen:				; CODE XREF: RAM:A085j
 		jr	z, isFirstScreen
 		ld	de, 3802h
 		ld	(penCol), de
-		ld	a, 0CFh	; 'œ'
+		ld	a, 0CFh	; '√è'
 		rst	28h
 ; ---------------------------------------------------------------------------
 		dw 455Eh		; vPutMap
@@ -809,13 +809,13 @@ noCarry4:				; CODE XREF: RAM:A1F6j
 		ld	hl, interruptBuf
 		ld	de, interruptBuf+1
 		ld	bc, 100h
-		ld	(hl), 99h ; 'ô'
+		ld	(hl), 99h ; '¬ô'
 		ldir
-		ld	a, 0C3h	; '√'
+		ld	a, 0C3h	; '√É'
 		ld	($9999), a
 		ld	hl, interrupt
 		ld	($999A), hl
-		ld	a, 8Dh ; 'ç'
+		ld	a, 8Dh ; '¬ç'
 		ld	i, a
 		im	2
 		call	interrupt
@@ -882,7 +882,7 @@ copyAttemptLp:				; CODE XREF: RAM:A282j
 isHauling:				; CODE XREF: RAM:A2ACj
 		ld	a, (contrastSave)
 		ld	(tempContrast),	a
-		add	a, 0D8h	; 'ÿ'
+		add	a, 0D8h	; '√ò'
 		out	(10h), a
 		ld	a, (goodCalc)
 		or	a
@@ -933,7 +933,7 @@ cantSeeLine:				; CODE XREF: RAM:A2DFj
 		jr	nc, notWinning
 		inc	a
 		ld	(tempContrast),	a
-		add	a, 0D8h	; 'ÿ'
+		add	a, 0D8h	; '√ò'
 		out	(10h), a
 
 notWinning:				; CODE XREF: RAM:A302j	RAM:A30Dj ...
@@ -941,7 +941,7 @@ notWinning:				; CODE XREF: RAM:A302j	RAM:A30Dj ...
 		or	a
 		call	z, regFastCopy
 		call	nz, invFastCopy
-		ld	a, 0BFh	; 'ø'
+		ld	a, 0BFh	; '¬ø'
 		call	keyScan
 		bit	7, b
 		jr	nz, notMenuing
@@ -960,14 +960,14 @@ notMenuing:				; CODE XREF: RAM:A32Fj
 
 unKeyLp:				; CODE XREF: RAM:A34Bj
 		halt
-		ld	a, 0BFh	; 'ø'
+		ld	a, 0BFh	; '¬ø'
 		call	keyScan
 		bit	6, b
 		jr	z, unKeyLp
 
 keyLp:					; CODE XREF: RAM:A355j
 		halt
-		ld	a, 0BFh	; 'ø'
+		ld	a, 0BFh	; '¬ø'
 		call	keyScan
 		bit	6, b
 		jr	nz, keyLp
@@ -981,7 +981,7 @@ notPausing:				; CODE XREF: RAM:A339j
 		ld	(pausePressed),	a
 
 pauseDone:				; CODE XREF: RAM:A33Fj	RAM:A35Cj
-		ld	a, 0FDh	; '˝'
+		ld	a, 0FDh	; '√Ω'
 		call	keyScan
 		bit	6, b
 		jr	nz, notQuit
@@ -1027,11 +1027,11 @@ notWinHaul:				; CODE XREF: RAM:A39Fj
 
 dwait1:					; CODE XREF: RAM:A3B0j
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait1
 		ld	a, (contrastSave)
 		ld	(tempContrast),	a
-		add	a, 0D8h	; 'ÿ'
+		add	a, 0D8h	; '√ò'
 		out	(10h), a
 		call	isHaulUnlocked
 		push	af
@@ -1133,7 +1133,7 @@ quit:					; CODE XREF: RAM:9EEEj	RAM:9EF3j ...
 		out	(29h), a
 		ld	a, (contrastSave)
 		ld	(contrast), a
-		add	a, 0D8h	; 'ÿ'
+		add	a, 0D8h	; '√ò'
 		out	(10h), a
 		ld	a, (appVarDirty)
 		or	a
@@ -1339,7 +1339,7 @@ doPhysics:				; CODE XREF: RAM:A2CEp
 itemParseLp:				; CODE XREF: doPhysics+24j
 					; doPhysics+4Bj
 		ld	a, (hl)
-		and	0C0h ; '¿'
+		and	0C0h ; '√Ä'
 		jr	z, doneForFrame2
 		sub	40h ; '@'
 		jr	nz, mustBeSprite
@@ -1399,11 +1399,11 @@ notAddingItem:				; CODE XREF: doPhysics+7j
 		ld	a, (winCount)
 		or	a
 		jr	nz, jumpin
-		ld	a, 0BFh	; 'ø'
+		ld	a, 0BFh	; '¬ø'
 		call	keyScan
 		bit	5, b
 		jr	z, jumpin
-		ld	a, 0FEh	; '˛'
+		ld	a, 0FEh	; '√æ'
 		call	keyScan
 		bit	3, b
 		jr	nz, notJumpin
@@ -1431,7 +1431,7 @@ notJumpin:				; CODE XREF: doPhysics+6Bj
 		ld	hl, jumpCount
 		inc	(hl)
 		ld	a, (squareY+1)
-		cp	0E6h ; 'Ê'
+		cp	0E6h ; '√¶'
 		jr	c, notOnGround
 		ld	hl, 0
 		ld	(yVel),	hl
@@ -1654,7 +1654,7 @@ notDark:				; CODE XREF: nextSprite+4j
 spriteParseLp:				; CODE XREF: nextSprite+5Cj
 					; nextSprite+64j ...
 		ld	a, (hl)
-		and	0C0h ; '¿'
+		and	0C0h ; '√Ä'
 		jp	z, doneForFrame
 		sub	40h ; '@'
 		jp	nz, itsASprite
@@ -1735,7 +1735,7 @@ notFlipping:				; CODE XREF: nextSprite+80j
 		ld	(tempContrast),	a
 
 turningLight:				; CODE XREF: nextSprite+9Dj
-		add	a, 0D8h	; 'ÿ'
+		add	a, 0D8h	; '√ò'
 		out	(10h), a
 		jr	effectCommon
 ; ---------------------------------------------------------------------------
@@ -1758,7 +1758,7 @@ notRising:				; CODE XREF: nextSprite+ABj
 
 itsASprite:				; CODE XREF: nextSprite+2Dj
 		ld	a, (hl)
-		and	0E0h ; '‡'
+		and	0E0h ; '√†'
 		sub	40h ; '@'
 		rlca
 		bit	6, a
@@ -1781,7 +1781,7 @@ itsBlock:				; CODE XREF: nextSprite+CDj
 		ld	c, a
 		rlca
 		add	a, c
-		add	a, 80h ; 'Ä'
+		add	a, 80h ; '¬Ä'
 		ld	e, a
 		call	newSprite
 
@@ -1823,7 +1823,7 @@ openingFound:				; CODE XREF: newSprite+6j
 		and	2
 		jr	z, notRisingz
 		ld	a, e
-		add	a, 0C4h	; 'ƒ'
+		add	a, 0C4h	; '√Ñ'
 		ld	e, a
 
 notRisingz:				; CODE XREF: newSprite+12j
@@ -1831,7 +1831,7 @@ notRisingz:				; CODE XREF: newSprite+12j
 		inc	hl
 		ld	(hl), e
 		inc	hl
-		ld	(hl), 0DEh ; 'ﬁ'
+		ld	(hl), 0DEh ; '√û'
 		ld	hl, sprites
 		inc	(hl)
 		pop	hl
@@ -1938,7 +1938,7 @@ spriteNotGone:				; CODE XREF: dispSprites+28j
 		jr	nc, notFalling
 		push	af
 		ld	a, d
-		cp	8Eh ; 'é'
+		cp	8Eh ; '¬é'
 		jr	nc, notInBound
 		ld	a, e
 		sub	2
@@ -1951,9 +1951,9 @@ notFalling:				; CODE XREF: dispSprites+3Ej
 		rrca
 		jr	nc, notRising2
 		ld	a, d
-		cp	0C0h ; '¿'
+		cp	0C0h ; '√Ä'
 		jr	c, notRising2
-		cp	0D4h ; '‘'
+		cp	0D4h ; '√î'
 		jr	nc, notRising2
 		ld	a, e
 		add	a, 6
@@ -1973,7 +1973,7 @@ noEffects:				; CODE XREF: dispSprites+3Bj
 		ld	e, a
 		cp	68h ; 'h'
 		jr	c, spriteContinue
-		cp	0ADh ; '≠'
+		cp	0ADh ; '¬≠'
 		jr	nc, spriteContinue
 		ld	a, d
 		ld	d, 0
@@ -2009,7 +2009,7 @@ notXSpike:				; CODE XREF: dispSprites+8Aj
 		rlca
 		inc	a
 		ld	l, a
-		ld	h, 8Eh ; 'é'
+		ld	h, 8Eh ; '¬é'
 		jp	(hl)
 ; ---------------------------------------------------------------------------
 
@@ -2135,7 +2135,7 @@ notInv:					; CODE XREF: RAM:A8F7j
 
 dwait2:					; CODE XREF: RAM:A907j	RAM:A932j
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait2
 		ld	a, c
 		cp	2Ch ; ','
@@ -2144,16 +2144,16 @@ dwait2:					; CODE XREF: RAM:A907j	RAM:A932j
 
 dwait3:					; CODE XREF: RAM:A913j
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait3
-		ld	a, 80h ; 'Ä'
+		ld	a, 80h ; '¬Ä'
 		out	(10h), a
 		ld	de, 0FFF2h
 		ld	b, 40h ; '@'
 
 dwait4:					; CODE XREF: RAM:A922j	RAM:A92Bj
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait4
 		ld	a, (hl)
 ; ---------------------------------------------------------------------------
@@ -2183,7 +2183,7 @@ notInv2:				; CODE XREF: RAM:A93Bj
 
 dwait5:					; CODE XREF: RAM:A94Bj	RAM:A976j
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait5
 		ld	a, c
 		cp	2Ch ; ','
@@ -2192,16 +2192,16 @@ dwait5:					; CODE XREF: RAM:A94Bj	RAM:A976j
 
 dwait6:					; CODE XREF: RAM:A957j
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait6
-		ld	a, 80h ; 'Ä'
+		ld	a, 80h ; '¬Ä'
 		out	(10h), a
 		ld	de, 0Eh
 		ld	b, 40h ; '@'
 
 dwait7:					; CODE XREF: RAM:A966j	RAM:A96Fj
 		in	a, (10h)
-		and	90h ; 'ê'
+		and	90h ; '¬ê'
 		jr	nz, dwait7
 		ld	a, (hl)
 ; ---------------------------------------------------------------------------
@@ -2273,14 +2273,14 @@ makeBlockLp:				; CODE XREF: makeCMDs+46j
 		push	bc
 		call	makeCMD1
 		push	de
-		ld	a, 0FCh	; '¸'
+		ld	a, 0FCh	; '√º'
 		call	makeCMD2
 		ld	(hl), 10h
 		inc	hl
-		ld	(hl), 0F8h ; '¯'
+		ld	(hl), 0F8h ; '√∏'
 		or	a
 		jr	z, noSecondByte
-		ld	(hl), 0F4h ; 'Ù'
+		ld	(hl), 0F4h ; '√¥'
 
 noSecondByte:				; CODE XREF: makeCMDs+3Bj
 		inc	hl
@@ -2318,11 +2318,11 @@ spikeXLp2:				; CODE XREF: makeCMDs+60j
 
 
 djnzRetStyle:				; CODE XREF: makeCMDs+20p makeCMDs+40p ...
-		ld	(hl), 0C3h ; '√'
+		ld	(hl), 0C3h ; '√É'
 		inc	hl
 		ld	(hl), 75h ; 'u'
 		inc	hl
-		ld	(hl), 0A8h ; '®'
+		ld	(hl), 0A8h ; '¬®'
 		inc	hl
 		ret
 ; End of function djnzRetStyle
@@ -2333,7 +2333,7 @@ djnzRetStyle:				; CODE XREF: makeCMDs+20p makeCMDs+40p ...
 
 makeCMD1:				; CODE XREF: makeCMDs+Ep makeCMDs+2Cp	...
 		ex	de, hl
-		ld	(hl), 0C3h ; '√'
+		ld	(hl), 0C3h ; '√É'
 		inc	hl
 		ld	(hl), e
 		inc	hl
@@ -2341,11 +2341,11 @@ makeCMD1:				; CODE XREF: makeCMDs+Ep makeCMDs+2Cp	...
 		inc	hl
 		inc	hl
 		ex	de, hl
-		ld	(hl), 0EBh ; 'Î'
+		ld	(hl), 0EBh ; '√´'
 		inc	hl
 		ld	(hl), 11h
 		inc	hl
-		ld	(hl), 0F1h ; 'Ò'
+		ld	(hl), 0F1h ; '√±'
 		inc	hl
 		ld	(hl), 0FFh
 		inc	hl
@@ -2540,24 +2540,24 @@ findStartInRom:				; CODE XREF: RAM:9E42p
 		ret
 ; ---------------------------------------------------------------------------
 ioSaveData:	db  39h	; 9		; DATA XREF: ioSaveLoad+1Do
-		db  84h	; Ñ
+		db  84h	; ¬Ñ
 		db  3Fh	; ?
 		db    0
-		db 0BFh	; ø
-		db  84h	; Ñ
+		db 0BFh	; ¬ø
+		db  84h	; ¬Ñ
 		db  49h	; I
 		db    0
-		db  88h	; à
-		db  85h	; Ö
+		db  88h	; ¬à
+		db  85h	; ¬Ö
 		db  64h	; d
 		db    1
-		db 0ECh	; Ï
-		db  89h	; â
+		db 0ECh	; √¨
+		db  89h	; ¬â
 		db  4Eh	; N
 		db    0
 		db  4Dh	; M
-		db  8Ch	; å
-		db 0B3h	; ≥
+		db  8Ch	; ¬å
+		db 0B3h	; ¬≥
 		db    2
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -2757,14 +2757,14 @@ spikePic:	db  38h	; 8		; DATA XREF: makeCMDs+Ao
 		db  38h	; 8
 		db  6Ch	; l
 		db  6Ch	; l
-		db 0C6h	; ∆
-		db 0FEh	; ˛
+		db 0C6h	; √Ü
+		db 0FEh	; √æ
 spikeXPic:	db  30h	; 0		; DATA XREF: makeCMDs+4Co
 		db  30h	; 0
 		db  48h	; H
 		db  48h	; H
-		db  84h	; Ñ
-		db 0FCh	; ¸
+		db  84h	; ¬Ñ
+		db 0FCh	; √º
 squarePics:	db    0			; DATA XREF: dispSquare+24o
 		db  7Eh	; ~
 		db  42h	; B
@@ -2776,2695 +2776,2695 @@ squarePics:	db    0			; DATA XREF: dispSquare+24o
 		db  70h	; p
 		db  4Eh	; N
 		db  42h	; B
-		db  82h	; Ç
-		db  84h	; Ñ
-		db 0E4h	; ‰
+		db  82h	; ¬Ç
+		db  84h	; ¬Ñ
+		db 0E4h	; √§
 		db  1Ch
 		db    0
 		db  30h	; 0
 		db  4Ch	; L
 		db  42h	; B
-		db  82h	; Ç
-		db  84h	; Ñ
+		db  82h	; ¬Ç
+		db  84h	; ¬Ñ
 		db  64h	; d
 		db  18h
 		db    0
 		db  10h
 		db  28h	; (
 		db  44h	; D
-		db  82h	; Ç
+		db  82h	; ¬Ç
 		db  44h	; D
 		db  28h	; (
 		db  10h
 		db    0
 		db  18h
 		db  64h	; d
-		db  84h	; Ñ
-		db  82h	; Ç
+		db  84h	; ¬Ñ
+		db  82h	; ¬Ç
 		db  42h	; B
 		db  4Ch	; L
 		db  30h	; 0
 		db    0
 		db  1Ch
-		db 0E4h	; ‰
-		db  84h	; Ñ
-		db  82h	; Ç
+		db 0E4h	; √§
+		db  84h	; ¬Ñ
+		db  82h	; ¬Ç
 		db  42h	; B
 		db  4Eh	; N
 		db  70h	; p
 		db    0
-fireAura:	db  80h	; Ä
+fireAura:	db  80h	; ¬Ä
 		db  33h	; 3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  30h	; 0
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db  0Ah
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  33h	; 3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  36h	; 6
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  36h	; 6
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  30h	; 0
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    7
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    7
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  24h	; $
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
-		db  85h	; Ö
+		db 0C4h	; √Ñ
+		db  85h	; ¬Ö
 		db    7
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
-		db  86h	; Ü
+		db 0C5h	; √Ö
+		db  86h	; ¬Ü
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
-		db  86h	; Ü
+		db 0C5h	; √Ö
+		db  86h	; ¬Ü
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    9
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    6
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    9
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Ch
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    9
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Bh
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Fh
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Fh
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Fh
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db    9
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CBh	; À
-		db 0ACh	; ¨
+		db 0CBh	; √ã
+		db 0ACh	; ¬¨
 		db    3
-		db 0CBh	; À
-		db 0ACh	; ¨
+		db 0CBh	; √ã
+		db 0ACh	; ¬¨
 		db    3
-		db 0CBh	; À
-		db 0ACh	; ¨
+		db 0CBh	; √ã
+		db 0ACh	; ¬¨
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Fh
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Fh
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Fh
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Fh
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Fh
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Fh
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Fh
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Fh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Eh
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Eh
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Eh
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    9
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    6
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    9
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  10h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Ch
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    6
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    6
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
 		db  41h	; A
 		db    9
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  0Ch
-		db 0D3h	; ”
+		db 0D3h	; √ì
 		db  0Ch
-		db 0D4h	; ‘
+		db 0D4h	; √î
 		db  0Ch
-		db 0D5h	; ’
+		db 0D5h	; √ï
 		db  0Ch
-		db 0D6h	; ÷
+		db 0D6h	; √ñ
 		db  0Ch
-		db 0D7h	; ◊
+		db 0D7h	; √ó
 		db  0Bh
-		db 0D8h	; ÿ
-		db  99h	; ô
+		db 0D8h	; √ò
+		db  99h	; ¬ô
 		db    9
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  12h
 		db  41h	; A
 		db    9
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  21h	; !
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  1Bh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    9
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  11h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C3h	; √É
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db  0Ch
-		db 0C4h	; ƒ
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C4h	; √Ñ
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db  0Ch
-		db 0C5h	; ≈
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C5h	; √Ö
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db  0Ch
-		db 0C6h	; ∆
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C6h	; √Ü
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db  0Ch
-		db 0C7h	; «
-		db 0C4h	; ƒ
-		db  85h	; Ö
+		db 0C7h	; √á
+		db 0C4h	; √Ñ
+		db  85h	; ¬Ö
 		db  0Ch
-		db 0C8h	; »
-		db 0C5h	; ≈
-		db  86h	; Ü
+		db 0C8h	; √à
+		db 0C5h	; √Ö
+		db  86h	; ¬Ü
 		db    9
-		db 0C7h	; «
-		db 0CAh	;  
-		db  8Bh	; ã
+		db 0C7h	; √á
+		db 0CAh	; √ä
+		db  8Bh	; ¬ã
 		db    9
-		db 0C6h	; ∆
-		db 0CBh	; À
-		db  8Ch	; å
+		db 0C6h	; √Ü
+		db 0CBh	; √ã
+		db  8Ch	; ¬å
 		db  0Fh
-		db 0C5h	; ≈
-		db 0C9h	; …
-		db  8Ah	; ä
+		db 0C5h	; √Ö
+		db 0C9h	; √â
+		db  8Ah	; ¬ä
 		db  0Fh
-		db 0C4h	; ƒ
-		db 0C8h	; »
-		db  89h	; â
+		db 0C4h	; √Ñ
+		db 0C8h	; √à
+		db  89h	; ¬â
 		db  0Eh
-		db 0C4h	; ƒ
-		db 0C8h	; »
-		db  89h	; â
+		db 0C4h	; √Ñ
+		db 0C8h	; √à
+		db  89h	; ¬â
 		db  0Ch
-		db 0C5h	; ≈
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C5h	; √Ö
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db  0Ch
-		db 0C6h	; ∆
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C6h	; √Ü
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db  0Ch
-		db 0C7h	; «
-		db 0C4h	; ƒ
-		db  85h	; Ö
+		db 0C7h	; √á
+		db 0C4h	; √Ñ
+		db  85h	; ¬Ö
 		db  0Ch
-		db 0C8h	; »
-		db 0C5h	; ≈
-		db  86h	; Ü
+		db 0C8h	; √à
+		db 0C5h	; √Ö
+		db  86h	; ¬Ü
 		db  0Ch
-		db 0C9h	; …
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C9h	; √â
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C9h	; …
-		db  8Ah	; ä
+		db 0C9h	; √â
+		db  8Ah	; ¬ä
 		db    3
-		db 0C8h	; »
-		db  89h	; â
+		db 0C8h	; √à
+		db  89h	; ¬â
 		db    3
-		db 0C7h	; «
-		db  88h	; à
+		db 0C7h	; √á
+		db  88h	; ¬à
 		db    3
-		db 0C5h	; ≈
-		db  86h	; Ü
+		db 0C5h	; √Ö
+		db  86h	; ¬Ü
 		db    3
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db  41h	; A
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  40h	; @
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  41h	; A
 		db  32h	; 2
-xboxLevel:	db  80h	; Ä
+xboxLevel:	db  80h	; ¬Ä
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  2Dh	; -
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  41h	; A
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  2Ah	; *
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  30h	; 0
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  33h	; 3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  15h
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    4
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  36h	; 6
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Ch
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Fh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    6
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Ch
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    9
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    6
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    6
-		db 0C7h	; «
+		db 0C7h	; √á
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
-		db 0C8h	; »
+		db 0C1h	; √Å
+		db 0C8h	; √à
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
-		db 0C9h	; …
+		db 0A0h	; ¬†
+		db 0C9h	; √â
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  0Ch
-		db 0D3h	; ”
+		db 0D3h	; √ì
 		db  0Ch
-		db 0D4h	; ‘
+		db 0D4h	; √î
 		db  0Ch
-		db 0D5h	; ’
+		db 0D5h	; √ï
 		db  10h
-		db 0D4h	; ‘
+		db 0D4h	; √î
 		db    3
-		db 0D4h	; ‘
-		db  95h	; ï
+		db 0D4h	; √î
+		db  95h	; ¬ï
 		db    3
-		db 0D4h	; ‘
-		db  95h	; ï
+		db 0D4h	; √î
+		db  95h	; ¬ï
 		db    9
-		db 0D3h	; ”
+		db 0D3h	; √ì
 		db  0Fh
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  0Fh
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    3
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Fh
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
-		db  90h	; ê
+		db 0CFh	; √è
+		db  90h	; ¬ê
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
-		db  90h	; ê
+		db 0CFh	; √è
+		db  90h	; ¬ê
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    3
-		db 0CFh	; œ
-		db  90h	; ê
+		db 0CFh	; √è
+		db  90h	; ¬ê
 		db    9
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Fh
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Fh
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Fh
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Fh
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Fh
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Fh
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Fh
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Fh
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Fh
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Fh
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Fh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  12h
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
 		db  41h	; A
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  18h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db    9
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Eh
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  12h
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db    9
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db    9
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  0Fh
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  0Ch
-		db 0D3h	; ”
+		db 0D3h	; √ì
 		db  0Ch
-		db 0D4h	; ‘
+		db 0D4h	; √î
 		db  18h
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
 		db  41h	; A
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db  0Ch
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  24h	; $
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  1Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  21h	; !
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  40h	; @
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  41h	; A
 		db  32h	; 2
-chaozFantasy:	db  80h	; Ä
+chaozFantasy:	db  80h	; ¬Ä
 		db  10h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  14h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  14h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Bh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  14h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  10h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  14h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Dh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    4
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    8
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    5
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db  14h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Ch
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C1h	; ¡
-		db 0A2h	; ¢
+		db 0C1h	; √Å
+		db 0A2h	; ¬¢
 		db    6
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Eh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  16h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  3Fh	; ?
 		db  42h	; B
 		db    6
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  23h	; #
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  27h	; '
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  11h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  14h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  11h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    4
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    7
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    7
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    4
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Eh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  41h	; A
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Eh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    8
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  1Ah
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  3Fh	; ?
 		db  42h	; B
 		db    9
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ah
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    3
 		db  41h	; A
 		db    6
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Eh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    4
 		db  41h	; A
 		db  0Ah
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    5
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  1Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Eh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  3Fh	; ?
 		db    7
 		db  42h	; B
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Eh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Eh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Eh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  0Dh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    7
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    9
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  3Fh	; ?
 		db  42h	; B
 		db  1Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  32h	; 2
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  16h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  20h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
 		db  41h	; A
 		db    7
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  16h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    4
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Eh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Fh
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  41h	; A
 		db  14h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  2Bh	; +
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  22h	; "
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  40h	; @
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  41h	; A
 		db  32h	; 2
-heaven:		db  80h	; Ä
+heaven:		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  20h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ah
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db  17h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  16h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Dh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  19h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  20h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C0h	; ¿
-		db 0C1h	; ¡
+		db 0C0h	; √Ä
+		db 0C1h	; √Å
 		db  41h	; A
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  10h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ah
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Dh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Dh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ah
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  21h	; !
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  12h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  0Bh
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db  0Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  13h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  13h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  18h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  15h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Ah
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  11h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Ch
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  32h	; 2
 		db  43h	; C
 		db  3Fh	; ?
 		db  44h	; D
 		db  19h
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  43h	; C
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db    3
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Fh
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Dh
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    3
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    9
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    3
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    4
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    4
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    4
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    4
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
-		db  87h	; á
+		db 0C6h	; √Ü
+		db  87h	; ¬á
 		db    3
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db    9
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db    8
-		db 0C7h	; «
+		db 0C7h	; √á
 		db    3
-		db 0C7h	; «
-		db  88h	; à
+		db 0C7h	; √á
+		db  88h	; ¬à
 		db    3
-		db 0C7h	; «
-		db  88h	; à
+		db 0C7h	; √á
+		db  88h	; ¬à
 		db    3
-		db 0C7h	; «
-		db  88h	; à
+		db 0C7h	; √á
+		db  88h	; ¬à
 		db    3
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db    3
-		db 0C9h	; …
+		db 0C9h	; √â
 		db    3
-		db 0C9h	; …
-		db  8Ah	; ä
+		db 0C9h	; √â
+		db  8Ah	; ¬ä
 		db    3
-		db 0C9h	; …
-		db  8Ah	; ä
+		db 0C9h	; √â
+		db  8Ah	; ¬ä
 		db    3
-		db 0C9h	; …
-		db  8Ah	; ä
+		db 0C9h	; √â
+		db  8Ah	; ¬ä
 		db    3
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db    3
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db    3
-		db 0CAh	;  
-		db  8Bh	; ã
+		db 0CAh	; √ä
+		db  8Bh	; ¬ã
 		db    3
-		db 0CAh	;  
-		db  8Bh	; ã
+		db 0CAh	; √ä
+		db  8Bh	; ¬ã
 		db    3
-		db 0CAh	;  
-		db  8Bh	; ã
+		db 0CAh	; √ä
+		db  8Bh	; ¬ã
 		db    3
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db    3
-		db 0CBh	; À
-		db  8Ch	; å
+		db 0CBh	; √ã
+		db  8Ch	; ¬å
 		db    3
-		db 0CBh	; À
-		db  8Ch	; å
+		db 0CBh	; √ã
+		db  8Ch	; ¬å
 		db    3
-		db 0CBh	; À
-		db  8Ch	; å
+		db 0CBh	; √ã
+		db  8Ch	; ¬å
 		db    3
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    9
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Fh
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    3
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    3
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    3
-		db 0CEh	; Œ
-		db  8Fh	; è
+		db 0CEh	; √é
+		db  8Fh	; ¬è
 		db    3
-		db 0CEh	; Œ
-		db  8Fh	; è
+		db 0CEh	; √é
+		db  8Fh	; ¬è
 		db    3
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    3
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    3
-		db 0CEh	; Œ
-		db  8Fh	; è
+		db 0CEh	; √é
+		db  8Fh	; ¬è
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    9
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    9
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db    9
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db    3
-		db 0CEh	; Œ
-		db  8Fh	; è
+		db 0CEh	; √é
+		db  8Fh	; ¬è
 		db    3
-		db 0CEh	; Œ
-		db  8Fh	; è
+		db 0CEh	; √é
+		db  8Fh	; ¬è
 		db    3
-		db 0CEh	; Œ
-		db  8Fh	; è
+		db 0CEh	; √é
+		db  8Fh	; ¬è
 		db    6
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db    3
-		db 0CDh	; Õ
-		db  8Eh	; é
+		db 0CDh	; √ç
+		db  8Eh	; ¬é
 		db    3
-		db 0CDh	; Õ
-		db  8Eh	; é
+		db 0CDh	; √ç
+		db  8Eh	; ¬é
 		db    3
-		db 0CDh	; Õ
-		db  8Eh	; é
+		db 0CDh	; √ç
+		db  8Eh	; ¬é
 		db    6
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    4
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    4
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    3
-		db 0CCh	; Ã
-		db  8Dh	; ç
+		db 0CCh	; √å
+		db  8Dh	; ¬ç
 		db    4
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db    9
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db    7
-		db 0D0h	; –
-		db  91h	; ë
+		db 0D0h	; √ê
+		db  91h	; ¬ë
 		db    7
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    7
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db    7
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    3
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    3
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    3
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db    3
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db    3
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db    3
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db    9
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    3
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db    3
-		db 0D1h	; —
-		db  92h	; í
+		db 0D1h	; √ë
+		db  92h	; ¬í
 		db    8
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    9
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db    9
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  0Ch
-		db 0D3h	; ”
+		db 0D3h	; √ì
 		db  0Ch
-		db 0D4h	; ‘
+		db 0D4h	; √î
 		db  0Ch
-		db 0D5h	; ’
+		db 0D5h	; √ï
 		db  19h
-		db 0D2h	; “
+		db 0D2h	; √í
 		db    3
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  41h	; A
 		db    3
-		db 0D0h	; –
-		db 0D1h	; —
-		db 0D2h	; “
-		db 0D3h	; ”
-		db 0D4h	; ‘
-		db 0D5h	; ’
+		db 0D0h	; √ê
+		db 0D1h	; √ë
+		db 0D2h	; √í
+		db 0D3h	; √ì
+		db 0D4h	; √î
+		db 0D5h	; √ï
 		db    3
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db    3
-		db 0D2h	; “
+		db 0D2h	; √í
 		db  17h
 		db  43h	; C
 		db  44h	; D
 		db  45h	; E
 		db  2Dh	; -
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db  43h	; C
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Eh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Fh
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Eh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    3
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    3
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    9
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    9
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
-		db  83h	; É
+		db 0C2h	; √Ç
+		db  83h	; ¬É
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    9
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
-		db  85h	; Ö
+		db 0C4h	; √Ñ
+		db  85h	; ¬Ö
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    7
-		db 0C3h	; √
-		db  84h	; Ñ
+		db 0C3h	; √É
+		db  84h	; ¬Ñ
 		db    7
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ah
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
-		db  85h	; Ö
+		db 0C4h	; √Ñ
+		db  85h	; ¬Ö
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    3
-		db 0C4h	; ƒ
-		db  85h	; Ö
+		db 0C4h	; √Ñ
+		db  85h	; ¬Ö
 		db    3
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db    9
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Fh
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    9
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Fh
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    6
 		db  41h	; A
 		db    3
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db    3
-		db 0A0h	; †
+		db 0A0h	; ¬†
 		db  25h	; %
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  21h	; !
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    8
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  1Fh
-		db 0C1h	; ¡
-		db  82h	; Ç
+		db 0C1h	; √Å
+		db  82h	; ¬Ç
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C3h	; √
+		db 0C3h	; √É
 		db    3
-		db  80h	; Ä
-		db 0C4h	; ƒ
+		db  80h	; ¬Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C3h	; √
+		db 0C0h	; √Ä
+		db 0C3h	; √É
 		db    3
-		db 0C0h	; ¿
-		db 0C2h	; ¬
+		db 0C0h	; √Ä
+		db 0C2h	; √Ç
 		db    3
-		db 0C0h	; ¿
-		db 0C3h	; √
+		db 0C0h	; √Ä
+		db 0C3h	; √É
 		db    3
-		db 0C0h	; ¿
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db  81h	; Å
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db  81h	; ¬Å
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C4h	; ƒ
+		db 0C0h	; √Ä
+		db 0C4h	; √Ñ
 		db    3
-		db 0C0h	; ¿
-		db 0C3h	; √
+		db 0C0h	; √Ä
+		db 0C3h	; √É
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db    3
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  16h
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Fh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db    3
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  0Eh
-		db  80h	; Ä
+		db  80h	; ¬Ä
 		db  26h	; &
 		db  45h	; E
-		db 0C0h	; ¿
+		db 0C0h	; √Ä
 		db    3
 		db  41h	; A
 		db    9
-		db 0C1h	; ¡
+		db 0C1h	; √Å
 		db  0Ch
-		db 0C2h	; ¬
+		db 0C2h	; √Ç
 		db  0Ch
-		db 0C3h	; √
+		db 0C3h	; √É
 		db  0Ch
-		db 0C4h	; ƒ
+		db 0C4h	; √Ñ
 		db  0Ch
-		db 0C5h	; ≈
+		db 0C5h	; √Ö
 		db  0Ch
-		db 0C6h	; ∆
+		db 0C6h	; √Ü
 		db  40h	; @
 		db  0Ch
-		db 0C7h	; «
+		db 0C7h	; √á
 		db  0Ch
-		db 0C8h	; »
+		db 0C8h	; √à
 		db  0Ch
-		db 0C9h	; …
+		db 0C9h	; √â
 		db  0Ch
-		db 0CAh	;  
+		db 0CAh	; √ä
 		db  0Ch
-		db 0CBh	; À
+		db 0CBh	; √ã
 		db  0Ch
-		db 0CCh	; Ã
+		db 0CCh	; √å
 		db  0Ch
-		db 0CDh	; Õ
+		db 0CDh	; √ç
 		db  0Ch
-		db 0CEh	; Œ
+		db 0CEh	; √é
 		db  0Ch
-		db 0CFh	; œ
+		db 0CFh	; √è
 		db  0Ch
-		db 0D0h	; –
+		db 0D0h	; √ê
 		db  0Ch
-		db 0D1h	; —
+		db 0D1h	; √ë
 		db  0Ch
-		db 0D2h	; “
+		db 0D2h	; √í
 
 
 
